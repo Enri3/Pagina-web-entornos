@@ -12,9 +12,8 @@
                 if ($name == $cuenta['usuario'] and $contra == $cuenta['contrasena']){
                     ?><html><br></html><?php
                     echo "enrico esta feliz";
-                    ?><html><br></html><?php
-                }else{
                     $cont = 1;
+                    ?><html><br></html><?php
                 }
             }
         }
@@ -35,7 +34,7 @@
         <br>
         <input type="password" class="form-control" name="contra" placeholder="Contrasena">
         <br>
-        <?php if ($cont == 1){echo "Ingrese contra nuevamente";} ?>
+        <?php if ($cont == 0){echo "Ingrese contra nuevamente";} ?>
         <br>
         <button type="submit" class="btn btn-primary w-100">Enviar</button>
     </form>
