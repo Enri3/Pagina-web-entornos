@@ -1,13 +1,9 @@
 <?php
-session_start();
+require_once 'includes/auth.php';
 require_once 'includes/header.php';
 require_once 'includes/footer.php';
 
-// Redirección si no hay sesión activa o rol incorrecto
-if (!isset($_SESSION['usuario_id']) || $_SESSION['rol'] !== 'cliente') {
-    header("Location: login.php");
-    exit;
-}
+verificarAcceso('cliente'); // Solo usuarios cliente pueden pasar
 
 renderHeader("Panel Cliente - Shopping Descuentos");
 ?>

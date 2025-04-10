@@ -1,12 +1,9 @@
 <?php
-session_start();
+require_once 'includes/auth.php';
 require_once 'includes/header.php';
 require_once 'includes/footer.php';
 
-if (!isset($_SESSION['usuario_id']) || $_SESSION['rol'] !== 'duenio') {
-    header("Location: login.php");
-    exit;
-}
+verificarAcceso('duenio'); // Solo usuarios duenio pueden pasar
 
 renderHeader("Panel Dueño - Shopping Descuentos");
 ?>

@@ -3,10 +3,10 @@ function renderFooter() {
     echo <<<HTML
 </main>
 
-<footer class="text-white pt-4 pb-2 mt-5 letra fondo_Barras fixed-bottom">
+<footer class="text-white pt-4 pb-2 mt-5 letra fondo_Barras">
     <div class="container">
         <div class="justify-content-center d-flex gap-3">
-            <h5><a href="infoContacto.html" class="text-white hover-subrayado">Sobre Nosotros</a></h5>
+            <h5><a href="info_contacto.php" class="text-white hover-subrayado">Sobre Nosotros</a></h5>
             <p>|</p>
             <h5><a href="#" class="text-white hover-subrayado">Mapa del Sitio</a></h5>
         </div>

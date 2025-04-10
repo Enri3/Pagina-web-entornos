@@ -1,22 +1,85 @@
-.fondo_Barras{
-    background-color: #455469;
+/* COLORES GENERALES */
+:root {
+    --azul-oscuro: #1c2331;
+    --azul: #455469;
+    --celeste: #58a6ff;
+    --blanco: #ffffff;
+    --gris-claro: #f5f5f5;
 }
 
-.fondo{
-    background-color: #020B17;
-}
-
-.img_logo{
-    width: 15%;
-}
-
-.letra {
+/* TIPOGRAFÍA */
+body {
+    background-color: var(--gris-claro);
     font-family: 'Montserrat', sans-serif;
-
+    color: #333;
 }
+
+/* NAVBAR */
+.fondo_Barras {
+    background-color: var(--azul);
+}
+
+.img_logo {
+    width: 80px; /* antes tenías 50px o 15% */
+    height: auto;
+}
+
+.navbar-nav .nav-link {
+    color: var(--blanco);
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--celeste);
+    text-decoration: underline;
+}
+
+/* BOTONES */
+.btn {
+    font-weight: 500;
+    border-radius: 8px;
+}
+
+.btn-primary {
+    background-color: var(--azul);
+    border-color: var(--azul);
+}
+
+.btn-outline-light:hover {
+    background-color: var(--celeste);
+    border-color: var(--celeste);
+    color: #000;
+}
+
+/* CONTENIDO PRINCIPAL */
+main {
+    padding-top: 100px; /* para que no tape la navbar */
+}
+
+/* FOOTER */
+footer {
+    background-color: var(--azul-oscuro);
+}
+
+footer a {
+    color: var(--blanco);
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+footer p, footer h5 {
+    margin: 0;
+}
+
+/* ANIMACIONES */
 .hover-subrayado {
     text-decoration: none;
-  }
+    transition: all 0.2s;
+}
 .hover-subrayado:hover {
     text-decoration: underline;
-  }
+}

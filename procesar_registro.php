@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once 'includes/conexion.php';
+require_once 'includes/enviar_correo.php';
 
 $nombre = $_POST['nombre'] ?? '';
 $email = $_POST['email'] ?? '';
@@ -25,6 +26,12 @@ try {
 
     $stmt = $conexion->prepare("INSERT INTO usuarios (nombre, email, password, rol) VALUES (?, ?, ?, ?)");
     $stmt->execute([$nombre, $email, $hash, $rol]);
+
+    $enviado = enviarCorreoRegistro($nombre, $email);
+
+    if (!$enviado) {
+        error_log("No se pudo enviar el correo a $email");
+    }
 
     // Redirigir al login
     header("Location: login.php?registro=exitoso");
