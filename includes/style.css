@@ -1,0 +1,22 @@
+.fondo_Barras{
+    background-color: #455469;
+}
+
+.fondo{
+    background-color: #020B17;
+}
+
+.img_logo{
+    width: 15%;
+}
+
+.letra {
+    font-family: 'Montserrat', sans-serif;
+
+}
+.hover-subrayado {
+    text-decoration: none;
+  }
+.hover-subrayado:hover {
+    text-decoration: underline;
+  }
