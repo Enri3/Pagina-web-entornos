@@ -6,7 +6,6 @@ require_once 'includes/conexion.php';
 $nombre = $_POST['nombre'] ?? '';
 $password = $_POST['password'] ?? '';
 
-
 if (empty($nombre) || empty($password)) {
     die("Todos los campos son obligatorios.");
 }
@@ -14,10 +13,10 @@ if (empty($nombre) || empty($password)) {
 $query = "SELECT * FROM usuarios WHERE nombre = '$nombre'";
 $resultado = mysqli_query($conexion, $query);
 
-
 if (mysqli_num_rows($resultado) === 1) {
     $usuario = mysqli_fetch_assoc($resultado);
 
+    // Verificar la contraseña
     if (md5($password) == $usuario['password']) {
         $_SESSION['id'] = $usuario['id'];
         $_SESSION['nombre'] = $usuario['nombre'];

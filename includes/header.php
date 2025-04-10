@@ -27,7 +27,7 @@ function renderHeader($titulo = "Shopping Descuentos") {
             <ul class="navbar-nav align-items-center gap-2">
 HTML;
 
-    if (isset($_SESSION['usuario_id'])) {
+    if (isset($_SESSION['nombre'])) {
         $nombre = htmlspecialchars($_SESSION['nombre']);
         $rol = $_SESSION['rol'];
 

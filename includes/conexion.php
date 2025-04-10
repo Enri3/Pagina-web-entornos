@@ -1,4 +1,3 @@
-
 <?php
 $base = 'shopping_db';
 $host = 'localhost';
