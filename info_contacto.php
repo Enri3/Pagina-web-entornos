@@ -81,7 +81,7 @@ renderHeader("Sobre Nosotros");
             <div class="card h-100 text-center shadow-sm">
                 <div class="card-body">
                     <i class="bi bi-person-circle display-3 text-primary mb-3"></i>
-                    <h5 class="card-title">Victoria Caracci</h5>
+                    <h5 class="card-title">Victoria Caracchi</h5>
                     <p class="card-text">Rol: Desarrollo Frontend</p>
                     <p class="card-text"><small>Email: vickypau1d@gmail.com</small></p>
                 </div>

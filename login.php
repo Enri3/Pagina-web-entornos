@@ -10,8 +10,8 @@ renderHeader("Iniciar Sesión - Shopping Descuentos");
     <div class="col-md-6">
         <form action="procesar_login.php" method="POST" class="border rounded p-4 shadow-sm bg-light">
             <div class="mb-3">
-                <label for="email" class="form-label">Correo electrónico</label>
-                <input type="email" name="email" id="email" class="form-control" required>
+                <label for="nombre" class="form-label">Nombre de usuario</label>
+                <input type="nombre" name="nombre" id="nombre" class="form-control" required>
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Contraseña</label>

@@ -12,31 +12,29 @@ if (empty($nombre) || empty($email) || empty($password) || empty($rol)) {
     die("Todos los campos son obligatorios.");
 }
 
-try {
-    // Verificar si el email ya está registrado
-    $stmt = $conexion->prepare("SELECT id FROM usuarios WHERE email = ?");
-    $stmt->execute([$email]);
+// Verificar si el email ya está registrado
+$query = "SELECT * FROM usuarios WHERE nombre = '$nombre'";
+$resultado = mysqli_query($conexion, $query)
+    or die("Eror al buscar al usuario");
 
-    if ($stmt->rowCount() > 0) {
-        die("El correo ya está registrado.");
-    }
-
-    // Insertar nuevo usuario
-    $hash = password_hash($password, PASSWORD_DEFAULT);
-
-    $stmt = $conexion->prepare("INSERT INTO usuarios (nombre, email, password, rol) VALUES (?, ?, ?, ?)");
-    $stmt->execute([$nombre, $email, $hash, $rol]);
-
-    $enviado = enviarCorreoRegistro($nombre, $email);
-
-    if (!$enviado) {
-        error_log("No se pudo enviar el correo a $email");
-    }
-
-    // Redirigir al login
-    header("Location: login.php?registro=exitoso");
-    exit;
-} catch (PDOException $e) {
-    die("Error al registrar: " . $e->getMessage());
+if (mysqli_num_rows($resultado) === 1) {
+    die("El usuario ya está registrado.");
 }
+
+// Hashear la contraseña
+$hash = md5($password);
+
+// Insertar nuevo usuario
+$query = "INSERT INTO usuarios (nombre, email, password, rol) VALUES ('$nombre', '$email', '$hash', '$rol')";
+$resultado = mysqli_query($conexion, $query);
+
+// Asignar sesión
+$_SESSION['id'] = $usuario['id'];
+$_SESSION['nombre'] = $usuario['nombre'];
+$_SESSION['rol'] = $usuario['rol'];
+
+// Redirigir al index
+header("Location: index.php");
 ?>
+
+$conexion = mysqli_connect("localhost", "root", "", "base") or die("No se pudo conectar");
