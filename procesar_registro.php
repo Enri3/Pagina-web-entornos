@@ -3,17 +3,17 @@ session_start();
 require_once 'includes/conexion.php';
 require_once 'includes/enviar_correo.php';
 
-$nombre = $_POST['nombre'] ?? '';
+$nombreUsuario = $_POST['nombreUsuario'] ?? '';
 $email = $_POST['email'] ?? '';
-$password = $_POST['password'] ?? '';
-$rol = $_POST['rol'] ?? '';
+$claveUsuario = $_POST['claveUsuario'] ?? '';
+$tipoUsuario = $_POST['tipoUsuario'] ?? '';
 
-if (empty($nombre) || empty($email) || empty($password) || empty($rol)) {
+if (empty($nombreUsuario) || empty($email) || empty($claveUsuario) || empty($tipoUsuario)) {
     die("Todos los campos son obligatorios.");
 }
 
 // Verificar si el email ya está registrado
-$query = "SELECT * FROM usuarios WHERE nombre = '$nombre'";
+$query = "SELECT * FROM usuarios WHERE nombre = '$nombreUsuario'";
 $resultado = mysqli_query($conexion, $query)
     or die("Eror al buscar al usuario");
 
@@ -22,27 +22,27 @@ if (mysqli_num_rows($resultado) === 1) {
 }
 
 // Hashear la contraseña
-$hash = md5($password);
+$hash = md5($claveUsuario);
 
 // Insertar nuevo usuario
-$query = "INSERT INTO usuarios (nombre, email, password, rol) VALUES ('$nombre', '$email', '$hash', '$rol')";
+$query = "INSERT INTO usuarios (nombreUsuario, email, claveUsuario, tipoUsuario) VALUES ('$nombreUsuario', '$email', '$hash', '$tipoUsuario')";
 mysqli_query($conexion, $query);
 
 // Asignar sesión
-$_SESSION['nombre'] = $nombre;
-$_SESSION['rol'] = $rol;
-$query = "SELECT * FROM usuarios WHERE nombre = '$nombre'";
+$_SESSION['nombreUsuario'] = $nombreUsuario;
+$_SESSION['tipoUsuario'] = $tipoUsuario;
+$query = "SELECT * FROM usuarios WHERE nombre = '$nombreUsuario'";
 $resultado = mysqli_query($conexion, $query)
     or die("Error al buscar al usuario");
 $usuario = mysqli_fetch_assoc($resultado);
-$_SESSION['id'] = $usuario['id'];
+$_SESSION['codUsuario'] = $usuario['codUsuario'];
 
 // Redirigir según el rol
-    if ($usuario['rol'] === 'admin') {
+    if ($usuario['tipoUsuario'] === 'administrador') {
         header("Location: admin_dashboard.php");
-    } elseif ($usuario['rol'] === 'duenio') {
-        header("Location: duenio_dashboard.php");
-    } else {
+    } elseif ($usuario['tipoUsuario'] === 'dueño de local') {
+        header("Location: dueño_dashboard.php");
+    } elseif ($usuario['tipoUsuario'] === 'cliente') {
         header("Location: cliente_dashboard.php");
     }
 ?>

@@ -3,31 +3,31 @@
 session_start();
 require_once 'includes/conexion.php';
 
-$nombre = $_POST['nombre'] ?? '';
-$password = $_POST['password'] ?? '';
+$nombreUsuario = $_POST['nombreUsuario'] ?? '';
+$calveUsuario = $_POST['calveUsuario'] ?? '';
 
-if (empty($nombre) || empty($password)) {
+if (empty($nombreUsuario) || empty($calveUsuario)) {
     die("Todos los campos son obligatorios.");
 }
 
-$query = "SELECT * FROM usuarios WHERE nombre = '$nombre'";
+$query = "SELECT * FROM usuarios WHERE nombreUsuario = '$nombreUsuario'";
 $resultado = mysqli_query($conexion, $query);
 
 if (mysqli_num_rows($resultado) === 1) {
     $usuario = mysqli_fetch_assoc($resultado);
 
     // Verificar la contraseña
-    if (md5($password) == $usuario['password']) {
-        $_SESSION['id'] = $usuario['id'];
-        $_SESSION['nombre'] = $usuario['nombre'];
-        $_SESSION['rol'] = $usuario['rol'];
+    if (md5($calveUsuario) == $usuario['calveUsuario']) {
+        $_SESSION['codUsuario'] = $usuario['codUsuario'];
+        $_SESSION['nombreUsuario'] = $usuario['nombreUsuario'];
+        $_SESSION['tipoUsuario'] = $usuario['tipoUsuario'];
 
         // Redirigir según el rol
-        if ($usuario['rol'] === 'admin') {
+        if ($usuario['tipoUsuario'] === 'administrador') {
             header("Location: admin_dashboard.php");
-        } elseif ($usuario['rol'] === 'duenio') {
-            header("Location: duenio_dashboard.php");
-        } else {
+        } elseif ($usuario['tipoUsuario'] === 'dueño de local') {
+            header("Location: dueño_dashboard.php");
+        } elseif ($usuario['tipoUsuario'] === 'cliente') {
             header("Location: cliente_dashboard.php");
         }
         exit;

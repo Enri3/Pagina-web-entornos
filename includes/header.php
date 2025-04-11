@@ -27,17 +27,17 @@ function renderHeader($titulo = "Shopping Descuentos") {
             <ul class="navbar-nav align-items-center gap-2">
 HTML;
 
-    if (isset($_SESSION['nombre'])) {
-        $nombre = htmlspecialchars($_SESSION['nombre']);
-        $rol = $_SESSION['rol'];
+    if (isset($_SESSION['nombreUsuario'])) {
+        $nombre = htmlspecialchars($_SESSION['nombreUsuario']);
+        $tipoUsuario = $_SESSION['tipoUsuario'];
 
-        // Definir la ruta al dashboard según el rol
+        // Definir la ruta al dashboard según el tipo de usuario
         $dashboard = "#";
-        if ($rol === 'admin') {
+        if ($tipoUsuario === 'administrador') {
             $dashboard = "admin_dashboard.php";
-        } elseif ($rol === 'duenio') {
-            $dashboard = "duenio_dashboard.php";
-        } elseif ($rol === 'cliente') {
+        } elseif ($tipoUsuario === 'dueño de local') {
+            $dashboard = "dueño_dashboard.php";
+        } elseif ($tipoUsuario === 'cliente') {
             $dashboard = "cliente_dashboard.php";
         }
 
