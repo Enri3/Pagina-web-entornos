@@ -1,3 +1,7 @@
+<!-- 
+ La funcion de enviar mail, está diostinto a los apuntes, hay que ver que hacemos.
+ Usa un objeto phpmailer y en los apuntes solo usamos la funcion, es verdad que es mas facil de configurar asi pero veamos.
+-->
 <?php
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
