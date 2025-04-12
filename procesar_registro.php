@@ -1,19 +1,24 @@
 <?php
+
+//incluye las funciones necesarias
 session_start();
 require_once 'includes/conexion.php';
 require_once 'includes/enviar_correo.php';
+require_once 'includes/redireccion.php';
 
 $nombreUsuario = $_POST['nombreUsuario'] ?? '';
 $email = $_POST['email'] ?? '';
 $claveUsuario = $_POST['claveUsuario'] ?? '';
 $tipoUsuario = $_POST['tipoUsuario'] ?? '';
 
+
+// Verificar si los campos están vacíos
 if (empty($nombreUsuario) || empty($email) || empty($claveUsuario) || empty($tipoUsuario)) {
-    die("Todos los campos son obligatorios.");
+    die($nombreUsuario.$email.$claveUsuario.$tipoUsuario."Todos los campos son obligatorios.");
 }
 
 // Verificar si el email ya está registrado
-$query = "SELECT * FROM usuarios WHERE nombre = '$nombreUsuario'";
+$query = "SELECT * FROM usuarios WHERE nombreUsuario = '$nombreUsuario'";
 $resultado = mysqli_query($conexion, $query)
     or die("Eror al buscar al usuario");
 
@@ -31,20 +36,16 @@ mysqli_query($conexion, $query);
 // Asignar sesión
 $_SESSION['nombreUsuario'] = $nombreUsuario;
 $_SESSION['tipoUsuario'] = $tipoUsuario;
-$query = "SELECT * FROM usuarios WHERE nombre = '$nombreUsuario'";
+
+//Rescatar el código de usuario
+$query = "SELECT * FROM usuarios WHERE nombreUsuario = '$nombreUsuario'";
 $resultado = mysqli_query($conexion, $query)
     or die("Error al buscar al usuario");
 $usuario = mysqli_fetch_assoc($resultado);
 $_SESSION['codUsuario'] = $usuario['codUsuario'];
 
 // Redirigir según el rol
-    if ($usuario['tipoUsuario'] === 'administrador') {
-        header("Location: admin_dashboard.php");
-    } elseif ($usuario['tipoUsuario'] === 'dueño de local') {
-        header("Location: dueño_dashboard.php");
-    } elseif ($usuario['tipoUsuario'] === 'cliente') {
-        header("Location: cliente_dashboard.php");
-    }
+redireccion($_SESSION['tipoUsuario']);
 ?>
 
-$conexion = mysqli_connect("localhost", "root", "", "base") or die("No se pudo conectar");
+

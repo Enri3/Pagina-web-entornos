@@ -1,8 +1,17 @@
 <?php
 include 'includes/header.php';
 include 'includes/footer.php';
+include 'includes/redireccion.php';
 
+session_start();
+// Verificar si el usuario ya está logueado
+if (isset($_SESSION['nombreUsuario'])) {
+    // Si el usuario ya está logueado, redirigir a la página de inicio o a otra página
+    redireccion($_SESSION['tipoUsuario']);
+    exit;
+}
 renderHeader("Iniciar Sesión - Shopping Descuentos");
+
 ?>
 
 <h2 class="text-center mb-4">Iniciar Sesión</h2>

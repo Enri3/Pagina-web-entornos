@@ -10,20 +10,20 @@ renderHeader("Registrarse - Shopping Descuentos");
     <div class="col-md-6">
         <form action="procesar_registro.php" method="POST" class="border rounded p-4 shadow-sm bg-light">
             <div class="mb-3">
-                <label for="nombre" class="form-label">Nombre completo</label>
-                <input type="text" name="nombre" id="nombre" class="form-control" required>
+                <label for="nombreUsuario" class="form-label">Nombre completo</label>
+                <input type="text" name="nombreUsuario" id="nombreUsuario" class="form-control" required>
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Correo electrónico</label>
                 <input type="email" name="email" id="email" class="form-control" required>
             </div>
             <div class="mb-3">
-                <label for="password" class="form-label">Contraseña</label>
-                <input type="password" name="password" id="password" class="form-control" required>
+                <label for="claveUsuario" class="form-label">Contraseña</label>
+                <input type="claveUsuario" name="claveUsuario" id="claveUsuario" class="form-control" required>
             </div>
             <div class="mb-3">
-                <label for="rol" class="form-label">Tipo de usuario</label>
-                <select name="rol" id="rol" class="form-select" required>
+                <label for="tipoUsuario" class="form-label">Tipo de usuario</label>
+                <select name="tipoUsuario" id="tipoUsuario" class="form-select" required>
                     <option value="">Seleccionar...</option>
                     <option value="cliente">Cliente</option>
                     <option value="duenio">Dueño de local</option>

@@ -2,6 +2,7 @@
 
 session_start();
 require_once 'includes/conexion.php';
+require_once 'includes/redireccion.php';
 
 $nombreUsuario = $_POST['nombreUsuario'] ?? '';
 $calveUsuario = $_POST['calveUsuario'] ?? '';
@@ -23,14 +24,7 @@ if (mysqli_num_rows($resultado) === 1) {
         $_SESSION['tipoUsuario'] = $usuario['tipoUsuario'];
 
         // Redirigir según el rol
-        if ($usuario['tipoUsuario'] === 'administrador') {
-            header("Location: admin_dashboard.php");
-        } elseif ($usuario['tipoUsuario'] === 'dueño de local') {
-            header("Location: dueño_dashboard.php");
-        } elseif ($usuario['tipoUsuario'] === 'cliente') {
-            header("Location: cliente_dashboard.php");
-        }
-        exit;
+        redireccion($_SESSION['tipoUsuario']);
     } else {
         die("Contraseña incorrecta.");
     }
