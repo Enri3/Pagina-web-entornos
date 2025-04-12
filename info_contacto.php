@@ -46,7 +46,7 @@ renderHeader("Sobre Nosotros");
                 <div class="card-body">
                     <i class="bi bi-person-circle display-3 text-primary mb-3"></i>
                     <h5 class="card-title">Agustín Barroso</h5>
-                    <p class="card-text">Rol: Novio de Juanchi</p>
+                    <p class="card-text">Rol: Gestor de desastres informáticos</p>
                     <p class="card-text"><small>Email: agusbarrosobollero@gmail.com</small></p>
                 </div>
             </div>
