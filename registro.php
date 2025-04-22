@@ -26,7 +26,7 @@ renderHeader("Registrarse - Shopping Descuentos");
                 <select name="tipoUsuario" id="tipoUsuario" class="form-select" required>
                     <option value="">Seleccionar...</option>
                     <option value="cliente">Cliente</option>
-                    <option value="duenio">Dueño de local</option>
+                    <option value="dueño de local">Dueño de local</option>
                 </select>
             </div>
             <div class="d-grid">

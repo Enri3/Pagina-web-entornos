@@ -10,6 +10,34 @@ renderHeader("Gestión de Locales");
 
 //Traer locales
 
+if (isset($_POST['crear_local'])){
+    
+    global $conexion;
+    
+    $nombreLocal = $_POST['nombreLocal'];
+    $ubicacionLocal = $_POST['ubicacionLocal'];
+    $rubroLocal = $_POST['rubroLocal'];
+    $codUsuario = $_POST['codUsuario'];
+    
+    
+    $query = "INSERT INTO locales (nombreLocal, ubicacionLocal, rubroLocal, codUsuario) VALUES ('$nombreLocal', '$ubicacionLocal', '$rubroLocal', '$codUsuario')";
+    if (mysqli_query($conexion, $query)) {
+        header("Location: admin_locales.php?mensaje=Local+creado+correctamente");
+        exit;
+    } else {
+        header("Location: admin_locales.php?mensaje=Error+al+crear+el+local:+");
+        exit;
+    }
+}
+
+if (isset($_GET['mensaje'])) {
+    ?>
+    <div class="alert alert-danger text-center">
+        <?= htmlspecialchars($_GET['mensaje']) ?>
+    </div>
+<?php
+}
+
 $query = "SELECT * FROM locales";
 $resultado = mysqli_query($conexion, $query);
 if (!$resultado) {
@@ -53,7 +81,7 @@ $locales = mysqli_fetch_all($resultado, MYSQLI_ASSOC);
 <!-- Modal -->
 <div class="modal fade" id="modalNuevoLocal" tabindex="-1" aria-labelledby="miModalLabel" aria-hidden="true">
   <div class="modal-dialog">
-    <form action="admin_nuevo_local.php" method="POST" class="modal-content">
+    <form action="admin_locales.php" method="POST" class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="miModalLabel">Crear Local</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
@@ -95,16 +123,15 @@ $locales = mysqli_fetch_all($resultado, MYSQLI_ASSOC);
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="submit" class="btn btn-primary">Guardar</button>
+        <button type="submit" name="crear_local" class="btn btn-primary">Guardar</button>
       </div>
     </form>
   </div>
 </div>
 
-
-
-
 <?php
+
+
 
 renderFooter();
 ?>
