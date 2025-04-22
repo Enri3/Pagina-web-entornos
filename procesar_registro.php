@@ -18,7 +18,7 @@ if (empty($nombreUsuario) || empty($email) || empty($claveUsuario) || empty($tip
 }
 
 // Verificar si el email ya está registrado
-$query = "SELECT * FROM usuarios WHERE nombreUsuario = '$nombreUsuario'";
+$query = "SELECT * FROM usuarios WHERE nombreUsuario = '$nombreUsuario' or email = '$email'";
 $resultado = mysqli_query($conexion, $query)
     or die("Eror al buscar al usuario");
 

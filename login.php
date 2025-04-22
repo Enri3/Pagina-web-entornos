@@ -19,12 +19,12 @@ renderHeader("Iniciar Sesión - Shopping Descuentos");
     <div class="col-md-6">
         <form action="procesar_login.php" method="POST" class="border rounded p-4 shadow-sm bg-light">
             <div class="mb-3">
-                <label for="nombre" class="form-label">Nombre de usuario</label>
-                <input type="nombre" name="nombre" id="nombre" class="form-control" required>
+                <label for="nombreUsuario" class="form-label">Nombre de usuario</label>
+                <input type="text" name="nombreUsuario" id="nombreUsuario" class="form-control" required>
             </div>
             <div class="mb-3">
-                <label for="password" class="form-label">Contraseña</label>
-                <input type="password" name="password" id="password" class="form-control" required>
+                <label for="claveUsuario" class="form-label">Contraseña</label>
+                <input type="password" name="claveUsuario" id="claveUsuario" class="form-control" required>
             </div>
             <div class="d-grid">
                 <button type="submit" class="btn btn-primary">Ingresar</button>

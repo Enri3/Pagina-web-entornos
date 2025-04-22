@@ -19,7 +19,7 @@ renderHeader("Registrarse - Shopping Descuentos");
             </div>
             <div class="mb-3">
                 <label for="claveUsuario" class="form-label">Contraseña</label>
-                <input type="claveUsuario" name="claveUsuario" id="claveUsuario" class="form-control" required>
+                <input type="password" name="claveUsuario" id="claveUsuario" class="form-control" required>
             </div>
             <div class="mb-3">
                 <label for="tipoUsuario" class="form-label">Tipo de usuario</label>

@@ -5,10 +5,14 @@ require_once 'includes/conexion.php';
 require_once 'includes/redireccion.php';
 
 $nombreUsuario = $_POST['nombreUsuario'] ?? '';
-$calveUsuario = $_POST['calveUsuario'] ?? '';
+$claveUsuario = $_POST['claveUsuario'] ?? '';
 
-if (empty($nombreUsuario) || empty($calveUsuario)) {
-    die("Todos los campos son obligatorios.");
+if (empty($nombreUsuario)) {
+    die("Usuario obligatorio.");
+}
+
+if (empty($claveUsuario)) {
+    die("Clave obligatoria.");
 }
 
 $query = "SELECT * FROM usuarios WHERE nombreUsuario = '$nombreUsuario'";
@@ -18,7 +22,7 @@ if (mysqli_num_rows($resultado) === 1) {
     $usuario = mysqli_fetch_assoc($resultado);
 
     // Verificar la contraseña
-    if (md5($calveUsuario) == $usuario['calveUsuario']) {
+    if (md5($claveUsuario) == $usuario['claveUsuario']) {
         $_SESSION['codUsuario'] = $usuario['codUsuario'];
         $_SESSION['nombreUsuario'] = $usuario['nombreUsuario'];
         $_SESSION['tipoUsuario'] = $usuario['tipoUsuario'];
