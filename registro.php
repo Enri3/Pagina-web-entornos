@@ -39,4 +39,12 @@ renderHeader("Registrarse - Shopping Descuentos");
     </div>
 </div>
 
-<?php renderFooter(); ?>
+<?php 
+if (isset($_GET['error'])){ ?>
+    <div class="alert alert-danger text-center">
+        <?= htmlspecialchars($_GET['error']) ?>
+    </div>
+<?php 
+}
+renderFooter();
+?>

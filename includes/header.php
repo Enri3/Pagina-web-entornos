@@ -4,7 +4,7 @@ Este es el header, se incluye en todas las paginas para no tener que ir incorpor
 
 <?php
 function renderHeader($titulo = "Shopping Descuentos") {
-    session_start();
+    
     echo <<<HTML
         <!DOCTYPE html>
         <html lang="es">
@@ -19,7 +19,7 @@ function renderHeader($titulo = "Shopping Descuentos") {
             </head>
             <body>
 
-                <nav class="navbar navbar-expand-sm fixed-top fondo_Barras shadow-sm">
+                <nav class="navbar navbar-expand-sm  fondo_Barras shadow-sm">
                 <div class="container-fluid">
                     <a href="index.php">
                         <img src="imagenes/logo.png" class="img-fluid img_logo" alt="logo">
@@ -46,13 +46,14 @@ function renderHeader($titulo = "Shopping Descuentos") {
         }
 
         echo <<<HTML
+
+            <li class="nav-item">
+                <span class="nav-link text-white">Hola, {$nombre}</span>
+            </li>
             <li class="nav-item">
                 <a class="nav-link text-white" href="{$dashboard}">
                     <button type="button" class="btn btn-outline-light text-light">Panel</button>
                 </a>
-            </li>
-            <li class="nav-item">
-                <span class="nav-link text-white">Hola, {$nombre}</span>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="logout.php">

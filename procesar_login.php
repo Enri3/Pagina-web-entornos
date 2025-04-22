@@ -30,10 +30,12 @@ if (mysqli_num_rows($resultado) === 1) {
         // Redirigir según el rol
         redireccion($_SESSION['tipoUsuario']);
     } else {
-        die("Contraseña incorrecta.");
+        header("Location: login.php?error=Contraseña+incorrecta");
+        exit;
     }
 } else {
-    die("Usuario no encontrado.");
+    header("Location: login.php?error=Usuario+no+encontrado");
+    exit;
 }
 
 ?>
