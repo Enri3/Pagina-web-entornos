@@ -2,6 +2,7 @@
 :root {
     --azul-oscuro: #1c2331;
     --azul: #455469;
+    --azul-claro: #6a7a91;
     --celeste: #58a6ff;
     --blanco: #ffffff;
     --gris-claro: #f5f5f5;
@@ -13,7 +14,10 @@ body {
     font-family: 'Montserrat', sans-serif;
     color: #333;
 }
-
+/* LOCALES */
+.fondo_local{
+    background-color: var(--azul);
+}
 /* NAVBAR */
 .fondo_Barras {
     background-color: var(--azul);
@@ -83,3 +87,15 @@ footer p, footer h5 {
 .hover-subrayado:hover {
     text-decoration: underline;
 }
+
+/*esto es lo q agrego para probar admin*/
+.card {
+    background-color: #cbd5e1;
+    border: none;
+    border-radius: 12px;
+  }
+.btn-custom {
+    background-color: #0f172a;
+    color: white;
+    border-radius: 30px;
+ }
