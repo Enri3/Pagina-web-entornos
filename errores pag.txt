@@ -1,3 +1,1 @@
-Errores encontrados hta 19/4
--está tirando error si queres registrarte dos veces con el mismo email
-    -esta bien que tire ese error no tiene porque dejarte loguearte dos veces con el mismo mail
+-en admin locales ver como hacer para que aparezca un solo boton a la vez

@@ -177,11 +177,10 @@ $locales = mysqli_fetch_all($resultado, MYSQLI_ASSOC);
                         </div>
                         <?php
                         }
-                    }else{
-                      ?>
+                    }
+                    ?>
                       <button class="btn btn-outline-light btn rounded-pill">Ver más</button>
                       <?php
-                    }
                     ?>
                     </div>
                     
