@@ -28,23 +28,51 @@ if (isset($_POST['crear_local'])){
         header("Location: admin_locales.php?mensaje=Error+al+crear+el+local:+");
         exit;
     }
-    unset($_GET['mensaje']);
 }
 
-if (isset($_GET['mensaje'])) {
-  if($_GET['mensaje']==="Local creado correctamente"){
-    ?>
-    <div class="alert alert-success text-center">
-        <?= htmlspecialchars($_GET['mensaje']) ?>
-    </div><?php
+if (isset($_POST['editar_local'])) {
+  global $conexion;
+
+  $codLocal = $_POST['codLocal']; // ID del local que se edita
+  $nombreLocal = $_POST['nombreLocal'];
+  $ubicacionLocal = $_POST['ubicacionLocal'];
+  $rubroLocal = $_POST['rubroLocal'];
+  $codUsuario = $_POST['codUsuario'];
+
+  $query = "UPDATE locales 
+            SET nombreLocal='$nombreLocal', ubicacionLocal='$ubicacionLocal', rubroLocal='$rubroLocal', codUsuario='$codUsuario'
+            WHERE codLocal='$codLocal'";
+
+  if (mysqli_query($conexion, $query)) {
+      header("Location: admin_locales.php?mensaje=Local+editado+correctamente");
+      exit;
+  } else {
+      header("Location: admin_locales.php?mensaje=Error+al+editar+el+local");
+      exit;
   }
-  else{ ?>
-    <div class="alert alert-danger text-center">
-        <?= htmlspecialchars($_GET['mensaje']) ?>
-    </div>
+}
+
+if (isset($_POST['eliminar_local'])) {
+  global $conexion;
+  $codLocal = $_POST['codLocalEliminar'];
+
+  $query = "DELETE FROM locales WHERE codLocal = $codLocal";
+  if (mysqli_query($conexion, $query)) {
+      header("Location: admin_locales.php?mensaje=Local+eliminado+correctamente");
+      exit;
+  } else {
+      header("Location: admin_locales.php?mensaje=Error+al+eliminar+el+local");
+      exit;
+  }
+}
+
+if (isset($_GET['mensaje']) && $_GET['mensaje'] != "Editar-local" && $_GET['mensaje'] != "Eliminar-local") {
+?>
+  <div class="alert alert-success text-center">
+      <?= htmlspecialchars($_GET['mensaje']) ?>
+  </div>
 <?php
-  
-  }}
+}
 
 $query = "SELECT * FROM locales";
 $resultado = mysqli_query($conexion, $query);
@@ -70,7 +98,91 @@ $locales = mysqli_fetch_all($resultado, MYSQLI_ASSOC);
 
                     <div class=" d-flex align-items-center justify-content-between rounded mb-3 px-3 py-2 fondo_Local border ">
                     <span class="ms-3 flex-grow-1 fw-bold"><?php echo $local['nombreLocal'];?> </span>
-                    <button class="btn btn-outline-light btn rounded-pill">Ver más</button>
+                    <?php 
+                    if(isset($_GET['mensaje'])){
+                      if ($_GET['mensaje'] === "Editar-local"){
+                        ?>
+                        <button class="btn btn-outline-light btn rounded-pill" data-bs-toggle="modal" data-bs-target="#modalEditarLocal<?= $local['codLocal'] ?>">Editar local</button>
+                        <!-- Modal para editar local -->
+                        <div class="modal fade" id="modalEditarLocal<?= $local['codLocal'] ?>" tabindex="-1" aria-labelledby="modalEditarLocal<?= $local['codLocal'] ?>" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <form action="admin_locales.php" method="POST" class="modal-content bg-white text-dark">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="modalEditarLabel<?= $local['codLocal'] ?>">Editar Local</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                              </div>
+                              <div class="modal-body">
+
+                                <input type="hidden" name="codLocal" value="<?= $local['codLocal'] ?>">
+
+                                <div class="mb-3">
+                                  <label for="nombreLocal" class="form-label">Nombre del Local</label>
+                                  <input type="text" name="nombreLocal" class="form-control" value="<?= htmlspecialchars($local['nombreLocal']) ?>" required>
+                                </div>
+
+                                <div class="mb-3">
+                                  <label class="form-label">Ubicación</label>
+                                  <input type="text" name="ubicacionLocal" class="form-control" value="<?= htmlspecialchars($local['ubicacionLocal']) ?>" required>
+                                </div>
+
+                                <div class="mb-3">
+                                  <label class="form-label">Rubro</label>
+                                  <input type="text" name="rubroLocal" class="form-control" value="<?= htmlspecialchars($local['rubroLocal']) ?>" required>
+                                </div>
+
+                                <div class="mb-3">
+                                  <label class="form-label">Dueño del Local</label>
+                                  <select name="codUsuario" class="form-select" required>
+                                    <?php
+                                    $query = "SELECT codUsuario, nombreUsuario FROM usuarios WHERE tipoUsuario = 'dueño de local'";
+                                    $duenios = mysqli_query($conexion, $query);
+                                    while ($duenio = mysqli_fetch_assoc($duenios)) {
+                                        $selected = ($duenio['codUsuario'] == $local['codUsuario']) ? 'selected' : '';
+                                        echo "<option value='{$duenio['codUsuario']}' $selected>{$duenio['nombreUsuario']}</option>";
+                                    }
+                                    ?>
+                                  </select>
+                                </div>
+
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" name="editar_local" class="btn btn-primary">Guardar cambios</button>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                        <?php
+                        }elseif($_GET['mensaje'] === "Eliminar-local"){
+                        ?>
+                        <button class="btn btn-outline-light btn rounded-pill" data-bs-toggle="modal" data-bs-target="#modalEliminarLocal<?= $local['codLocal'] ?>">Eliminar local</button>
+                        <!-- Modal de confirmación para eliminar -->
+                        <div class="modal fade" id="modalEliminarLocal<?= $local['codLocal'] ?>" tabindex="-1" aria-labelledby="labelEliminar<?= $local['codLocal'] ?>" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <form action="admin_locales.php" method="POST" class="modal-content bg-white text-dark">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="labelEliminar<?= $local['codLocal'] ?>">Eliminar Local</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                              </div>
+                              <div class="modal-body">
+                                <input type="hidden" name="codLocalEliminar" value="<?= $local['codLocal'] ?>">
+                                <p>¿Estás seguro que querés eliminar el local <strong><?= htmlspecialchars($local['nombreLocal']) ?></strong>?</p>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" name="eliminar_local" class="btn btn-danger">Eliminar</button>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                        <?php
+                        }
+                    }else{
+                      ?>
+                      <button class="btn btn-outline-light btn rounded-pill">Ver más</button>
+                      <?php
+                    }
+                    ?>
                     </div>
                     
                     <?php }
@@ -80,13 +192,13 @@ $locales = mysqli_fetch_all($resultado, MYSQLI_ASSOC);
             <!-- Botones de acciones -->
             <div class="d-flex flex-column col-2 ms-4 gap-3 flex-column justify-content-center">
                 <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalNuevoLocal">Crear Local</button>
-                <a href="editar_local.php" class="btn btn-secondary">Editar local</a><!-- No anda -->
-                <a href="admin_eliminar_local.php" class="btn btn-secondary">Eliminar Local</a><!-- No anda -->
+                <a href="admin_locales.php?mensaje=Editar-local" class="btn btn-secondary">Editar local</a>
+                <a href="admin_locales.php?mensaje=Eliminar-local" class="btn btn-secondary">Elimar local</a>
             </div>
     </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal para crear local -->
 <div class="modal fade" id="modalNuevoLocal" tabindex="-1" aria-labelledby="miModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <form action="admin_locales.php" method="POST" class="modal-content">
