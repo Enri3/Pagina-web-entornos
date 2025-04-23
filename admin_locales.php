@@ -80,8 +80,8 @@ $locales = mysqli_fetch_all($resultado, MYSQLI_ASSOC);
             <!-- Botones de acciones -->
             <div class="d-flex flex-column col-2 ms-4 gap-3 flex-column justify-content-center">
                 <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalNuevoLocal">Crear Local</button>
-                <a href="admin_editar_local.php" class="btn btn-secondary">Editar Local</a>
-                <a href="admin_eliminar_local.php" class="btn btn-secondary">Eliminar Local</a>
+                <a href="editar_local.php" class="btn btn-secondary">Editar local</a><!-- No anda -->
+                <a href="admin_eliminar_local.php" class="btn btn-secondary">Eliminar Local</a><!-- No anda -->
             </div>
     </div>
 </div>
@@ -109,7 +109,7 @@ $locales = mysqli_fetch_all($resultado, MYSQLI_ASSOC);
 
         <div class="mb-3">
           <label for="rubroLocal" class="form-label">Rubro</label>
-          <select name="tipoUsuario" id="tipoUsuario" class="form-select" required>
+          <select name="rubroLocal" id="rubroLocal" class="form-select" required>
                     <option value="">Seleccionar...</option>
                     <option value="Indumentaria">Indumentaria</option>
                     <option value="Perfumeria">Perfumeria</option>

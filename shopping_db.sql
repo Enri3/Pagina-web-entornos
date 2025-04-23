@@ -117,7 +117,7 @@ INSERT INTO `usuarios` (`codUsuario`, `nombreUsuario`, `email`, `claveUsuario`, 
 (5, 'br br patapin', 'brbrpata@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'dueño de local', ''),
 (6, 'valerina capuchina', 'lavalelarompe@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'dueño de local', ''),
 (7, 'enricota2', 'enricota2@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'cliente', 'Inicial'),
-(8, 'bombini gusini', 'elcocoesaltobobo@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'dueño de local', '');
+(8, 'bombini gusini', 'elcocoesaltobobo@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'administrador', '');
 
 
 --
