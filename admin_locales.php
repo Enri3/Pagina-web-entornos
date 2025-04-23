@@ -61,7 +61,7 @@ $locales = mysqli_fetch_all($resultado, MYSQLI_ASSOC);
 </div>
 
 
-<div class="container py-2 min-vh-100 px-0">
+<div class="container-fluid py-2 min-vh-100 px-0">
     <div class="d-flex ">
         <!-- Locales -->
         <div class=" fondo_local rounded p-3 flex-grow-1 text-light ">
@@ -105,10 +105,19 @@ $locales = mysqli_fetch_all($resultado, MYSQLI_ASSOC);
           <input type="text" name="ubicacionLocal" id="ubicacionLocal" class="form-control" required>
         </div>
 
+
+
         <div class="mb-3">
           <label for="rubroLocal" class="form-label">Rubro</label>
-          <input type="text" name="rubroLocal" id="rubroLocal" class="form-control" required>
+          <select name="tipoUsuario" id="tipoUsuario" class="form-select" required>
+                    <option value="">Seleccionar...</option>
+                    <option value="Indumentaria">Indumentaria</option>
+                    <option value="Perfumeria">Perfumeria</option>
+                    <option value="Comida">Comida</option>
+                    <option value="Bazar">Bazar</option>
+                </select>
         </div>
+
 
         <div class="mb-3">
           <label for="codUsuario" class="form-label">Dueño del Local</label>

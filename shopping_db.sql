@@ -31,9 +31,21 @@ CREATE TABLE `locales` (
   `codLocal` int(11) NOT NULL,
   `nombreLocal` varchar(100) NOT NULL,
   `ubicacionLocal` varchar(100) NOT NULL,
-  `rubroLocal` varchar(100) NOT NULL,
+  `rubroLocal` enum('Indumentaria','Comida','Perfumeria','Bazar') NOT NULL,
   `codUsuario` int(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+
+
+INSERT INTO locales (codLocal, nombreLocal, ubicacionLocal, rubroLocal, codUsuario) VALUES
+(1, 'Nike', 'Piso 1 Ala Este', 'Indumentaria','4'),
+(2, 'Adidas', 'Piso 1 Ala Oeste', 'Indumentaria','4'),
+(3, 'Sport 78', 'Piso 0 Ala Este', 'Indumentaria','4'),
+(4, 'Isadora', 'Piso 2 Ala Este', 'Perfumeria','4'),
+(5, 'McDonals', 'Patio de Comidas', 'Comida','4'),
+(6, 'KFC', 'Patio de Comidas', 'Comida','4');
 
 -- --------------------------------------------------------
 
@@ -107,6 +119,7 @@ INSERT INTO `usuarios` (`codUsuario`, `nombreUsuario`, `email`, `claveUsuario`, 
 (7, 'enricota2', 'enricota2@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'cliente', 'Inicial'),
 (8, 'bombini gusini', 'elcocoesaltobobo@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'dueño de local', '');
 
+
 --
 -- Índices para tablas volcadas
 --
@@ -144,7 +157,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `locales`
 --
 ALTER TABLE `locales`
-  MODIFY `codLocal` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `codLocal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `novedades`
