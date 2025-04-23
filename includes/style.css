@@ -17,6 +17,12 @@ body {
 /* LOCALES */
 .fondo_local{
     background-color: var(--azul);
+    height: 500px; 
+    overflow-y: scroll;
+}
+.border{
+    background-color: var(--azul-claro);
+
 }
 /* NAVBAR */
 .fondo_Barras {
@@ -47,6 +53,11 @@ body {
 
 .btn-primary {
     background-color: var(--azul);
+    border-color: var(--azul);
+}
+
+.btn-secondary{
+    background-color: var(--azul-claro);
     border-color: var(--azul);
 }
 

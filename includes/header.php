@@ -19,7 +19,7 @@ function renderHeader($titulo = "Shopping Descuentos") {
             </head>
             <body>
 
-                <nav class="navbar navbar-expand-sm  fondo_Barras shadow-sm">
+                <nav class="navbar navbar-expand-sm  fondo_Barras shadow-sm py-4">
                 <div class="container-fluid">
                     <a href="index.php">
                         <img src="imagenes/logo.png" class="img-fluid img_logo" alt="logo">

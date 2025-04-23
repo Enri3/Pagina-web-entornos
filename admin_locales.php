@@ -28,15 +28,23 @@ if (isset($_POST['crear_local'])){
         header("Location: admin_locales.php?mensaje=Error+al+crear+el+local:+");
         exit;
     }
+    unset($_GET['mensaje']);
 }
 
 if (isset($_GET['mensaje'])) {
+  if($_GET['mensaje']==="Local creado correctamente"){
     ?>
+    <div class="alert alert-success text-center">
+        <?= htmlspecialchars($_GET['mensaje']) ?>
+    </div><?php
+  }
+  else{ ?>
     <div class="alert alert-danger text-center">
         <?= htmlspecialchars($_GET['mensaje']) ?>
     </div>
 <?php
-}
+  
+  }}
 
 $query = "SELECT * FROM locales";
 $resultado = mysqli_query($conexion, $query);
@@ -53,16 +61,16 @@ $locales = mysqli_fetch_all($resultado, MYSQLI_ASSOC);
 </div>
 
 
-<div class="container-fluid py-5">
-    <div class="d-flex">
+<div class="container py-2 min-vh-100 px-0">
+    <div class="d-flex ">
         <!-- Locales -->
-        <div class="bg-secondary bg-opacity-50 rounded p-3" style="width: 400px; height: 500px; overflow-y: auto;">
+        <div class=" fondo_local rounded p-3 flex-grow-1 text-light ">
             <?php
                 foreach($locales as $local) { ?>
 
-                    <div class=" d-flex align-items-center justify-content-between rounded mb-3 px-3 py-2 fondo_Local">
+                    <div class=" d-flex align-items-center justify-content-between rounded mb-3 px-3 py-2 fondo_Local border ">
                     <span class="ms-3 flex-grow-1 fw-bold"><?php echo $local['nombreLocal'];?> </span>
-                    <button class="btn btn-outline-light btn-sm rounded-pill">INFO</button>
+                    <button class="btn btn-outline-light btn rounded-pill">Ver más</button>
                     </div>
                     
                     <?php }
@@ -70,10 +78,10 @@ $locales = mysqli_fetch_all($resultado, MYSQLI_ASSOC);
                 ?>
         </div>
             <!-- Botones de acciones -->
-            <div class="d-flex flex-column ms-4 gap-3">
-                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalNuevoLocal">Crear Local</button>
-                <a href="admin_editar_local.php" class="btn btn-primary">Editar Local</a>
-                <a href="admin_eliminar_local.php" class="btn btn-danger">Eliminar Local</a>
+            <div class="d-flex flex-column col-2 ms-4 gap-3 flex-column justify-content-center">
+                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalNuevoLocal">Crear Local</button>
+                <a href="admin_editar_local.php" class="btn btn-secondary">Editar Local</a>
+                <a href="admin_eliminar_local.php" class="btn btn-secondary">Eliminar Local</a>
             </div>
     </div>
 </div>
