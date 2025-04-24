@@ -2,9 +2,11 @@ ATENCIONES
 -comentar todo el codigo
 -hay que "unificar" el sql que esta en el repo con conexion.php, se supone que es para tener preparada la bd cada vez que probemos.
 -hay que revisar el enviar_correo (¿que es la carpeta esa de php mailer?)
+    -Enrico, respuesta a pregunta: la carpeta esa contiene el codigo para el envio de mails, dado a que todavia estamos desarrollando registros de cuentas, locales y descuentos es muy molesto que este enviando mail al pedo.
 -debatir el tema de los session_start() ¿Está bien que esté en los include?¿O sólo ponerlos en las páginas?¿Rompe algo?
+    -Enrico, respuesta a pregunta: si los session_start() se ejecutan abiendo una sesion ya iniciada, salta un fatal error porque justamente ya hay una session iniciada.
 -evitar usar la ñ de dueño si no es para texto, unificar variables (ví que en algunos lados dice duenio y en otros dueno)
+    -Enrico, yo les pondria duenio a todos, es mas, si pudiera lo cambiaria en la rae tambien.
 
 ERRORES
 -en admin locales se pueden crear locales duplicados
--dice elimar en vez de eliminar
