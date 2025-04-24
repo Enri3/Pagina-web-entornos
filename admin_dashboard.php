@@ -53,7 +53,7 @@ renderHeader("Panel Administrador - Shopping Descuentos");
         <img src="imagenes/mall1.jpg" class="card-img-top rounded" alt="Descuentos">
         <div class="card-body text-center">
           <h5 class="card-title">Reporte de descuentos</h5>
-          <a href="#" class="btn btn-custom mt-2">IR</a>
+          <a href="admin_reportedescuentos.php" class="btn btn-custom mt-2">IR</a>
         </div>
       </div>
     </div>
