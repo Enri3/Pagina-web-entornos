@@ -31,7 +31,7 @@ renderHeader("Panel Administrador - Shopping Descuentos");
         <img src="imagenes/mall1.jpg" class="card-img-top rounded" alt="Solicitudes">
         <div class="card-body text-center">
           <h5 class="card-title">Aceptar/denegar solicitudes</h5>
-          <a href="#" class="btn btn-custom mt-2">IR</a>
+          <a href="admin_solicitudes.php" class="btn btn-custom mt-2">IR</a>
         </div>
       </div>
     </div>
