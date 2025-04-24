@@ -1,0 +1,10 @@
+ATENCIONES
+-comentar todo el codigo
+-hay que "unificar" el sql que esta en el repo con conexion.php, se supone que es para tener preparada la bd cada vez que probemos.
+-hay que revisar el enviar_correo (¿que es la carpeta esa de php mailer?)
+-debatir el tema de los session_start() ¿Está bien que esté en los include?¿O sólo ponerlos en las páginas?¿Rompe algo?
+-evitar usar la ñ de dueño si no es para texto, unificar variables (ví que en algunos lados dice duenio y en otros dueno)
+
+ERRORES
+-en admin locales se pueden crear locales duplicados
+-dice elimar en vez de eliminar

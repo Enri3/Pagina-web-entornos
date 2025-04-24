@@ -1,2 +1,0 @@
--en admin locales se pueden crear locales duplicados
--dice elimar en vez de eliminar
