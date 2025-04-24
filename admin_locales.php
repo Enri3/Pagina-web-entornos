@@ -86,11 +86,6 @@ $locales = mysqli_fetch_all($resultado, MYSQLI_ASSOC);
   <h2 class="text-center mb-4">Administrar Locales</h2>
 </div>
 
-<!-- 
-enrico comentame que hace todo hasta acá 😩
-lo de abajo ya entendí 
--->
-
 <!-- Contenido de la página -->
 <div class="container-fluid py-2 min-vh-100 px-0">
   <div class="d-flex ">
@@ -136,9 +131,19 @@ lo de abajo ya entendí
                       <input type="text" name="ubicacionLocal" class="form-control" value="<?= htmlspecialchars($local['ubicacionLocal']) ?>" required>
                     </div>
 
+                    <!-- Listado de rubros del local -->
+                    <?php $rubros = ['Indumentaria','Perfumeria','Comida','Bazar']; ?>
                     <div class="mb-3">
-                      <label class="form-label">Rubro</label>
-                      <input type="text" name="rubroLocal" class="form-control" value="<?= htmlspecialchars($local['rubroLocal']) ?>" required>
+                      <label for="rubroLocal" class="form-label">Rubro</label>
+                      <select name="rubroLocal" id="rubroLocal" class="form-select" required>
+                              <?php foreach ($rubros as $rubro) {
+                                if ($rubro != ($local['rubroLocal'])){
+                                  ?> <option value=<?= $rubro ?>><?= $rubro ?></option> <?php
+                                }else{
+                                  ?> <option value=<?= htmlspecialchars($local['rubroLocal']) ?> selected><?= htmlspecialchars($local['rubroLocal']) ?></option> <?php
+                                }
+                              }?>
+                        </select>
                     </div>
 
                     <div class="mb-3">
