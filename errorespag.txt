@@ -10,3 +10,15 @@ ATENCIONES
 
 ERRORES
 -en admin locales se pueden crear locales duplicados
+
+admin_locales
+-linea 102 cierra y abre <?php ?> una linea abajo de la otra, habria que sacarlo
+-linea 11 moverla a linea 84
+-cambiar variable de sesion que se usa para imprimir mensajes y cambiar cosas de la pagina
+-meter los modals en funciones
+
+shopping_db
+-linea 65 cambiarla por:
+  `estadoPromo` enum('pendiente','aprobada','denegada') NOT NULL,
+-linea 49 cambiarla por:
+  `tipoUsuario` enum('Inicial','Medium','Premium') NOT NULL,
