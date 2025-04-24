@@ -8,8 +8,35 @@ verificarAcceso('administrador'); // Solo usuarios admin pueden pasar
 
 renderHeader("Gestión de descuentos");
 
-//Traer solicitudes de descuentos
+//Cargar decision de la solicitud
+if (isset($_GET['mensaje']) && ($_GET['mensaje'] === "Denegar" || $_GET['mensaje'] === "Aprobar")) {
+    $decision = $_GET['mensaje'];
+  } else {
+        $decision = 'Denegar';
+        //echo "ALGO ESTA FALLANDO";
+  }
 
+//Enviar decision de la solicitud
+if (isset($_POST['solicitud'])) {
+    $codSolicitud = $_POST['codSolicitud'];
+    if ($decision === "Aprobar") {
+        $decision = "Confirmada";
+    } else {
+        $decision = "Rechazada";
+    }
+  
+    $query = "UPDATE solicitudes SET estado='$decision' WHERE codSolicitud='$codSolicitud'";
+  
+    if (mysqli_query($conexion, $query)) {
+        header("Location: admin_solicitudes.php?mensaje=Estado+solicitud+actualizado+correctamente");
+        exit;
+    } else {
+        header("Location: admin_solicitudes.php?mensaje=Error+al+actualizar+estado+de+la+solicitud");
+        exit;
+    }
+}
+
+//Traer solicitudes de descuentos
 $query = "SELECT * FROM solicitudes";
 $resultado = mysqli_query($conexion, $query);
 
@@ -20,6 +47,7 @@ if (!$resultado) {
 $solicitudes = mysqli_fetch_all($resultado, MYSQLI_ASSOC);
 
 ?>
+
 <div class="container my-5">
   <h2 class="text-center mb-4">Aprobar/denegar solicitudes de descuentos</h2>
 </div>
@@ -29,206 +57,59 @@ $solicitudes = mysqli_fetch_all($resultado, MYSQLI_ASSOC);
   <div class="d-flex ">
 
     <!-- Listado de locales -->
-    <div class=" fondo_local rounded p-3 flex-grow-1 text-light ">
+    <div class="fondo_local rounded p-3 flex-grow-1 text-light">
 
       <h3 class="text-center mb-4">Solicitudes</h3>
 
       <?php if (empty($solicitudes)) { ?>
-          <div class="alert alert-info text-center" role="alert">
-              No existen solicitudes cargadas actualmente.
-          </div>
-      <?php } else  ?>
-
-      <?php foreach($solicitudes as $solicitud) { ?>
-
-        <div class=" d-flex align-items-center justify-content-between rounded mb-3 px-3 py-2 fondo_Local border ">
-          <span class="ms-3 flex-grow-1 fw-bold"><?php echo $solicitud['codUsuario'];?> </span>
-          <span class="ms-3 flex-grow-1 fw-bold"><?php echo $solicitud['nombreDescuento'];?> </span>
-          <span class="ms-3 flex-grow-1 fw-bold"><?php echo $solicitud['codLocal'];?> </span>
-
-          <?php 
-            if(isset($_GET['mensaje'])){
-              if ($_GET['mensaje'] === "Editar-local"){
-          ?>
-
-            <button class="btn btn-outline-light btn rounded-pill" data-bs-toggle="modal" data-bs-target="#modalEditarLocal<?= $local['codLocal'] ?>">Editar local</button>
-
-            <!-- Modal para editar local -->
-            <div class="modal fade" id="modalEditarLocal<?= $local['codLocal'] ?>" tabindex="-1" aria-labelledby="modalEditarLocal<?= $local['codLocal'] ?>" aria-hidden="true">
-              <div class="modal-dialog">
-                <form action="admin_locales.php" method="POST" class="modal-content bg-white text-dark">
-
-                  <!-- header -->
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="modalEditarLabel<?= $local['codLocal'] ?>">Editar Local</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                  </div>
-
-                  <!-- body -->
-                  <div class="modal-body">
-
-                    <input type="hidden" name="codLocal" value="<?= $local['codLocal'] ?>">
-
-                    <div class="mb-3">
-                      <label for="nombreLocal" class="form-label">Nombre del Local</label>
-                      <input type="text" name="nombreLocal" class="form-control" value="<?= htmlspecialchars($local['nombreLocal']) ?>" required>
-                    </div>
-
-                    <div class="mb-3">
-                      <label class="form-label">Ubicación</label>
-                      <input type="text" name="ubicacionLocal" class="form-control" value="<?= htmlspecialchars($local['ubicacionLocal']) ?>" required>
-                    </div>
-
-                    <!-- Listado de rubros del local -->
-                    <?php $rubros = ['Indumentaria','Perfumeria','Comida','Bazar']; ?>
-                    <div class="mb-3">
-                      <label for="rubroLocal" class="form-label">Rubro</label>
-                      <select name="rubroLocal" id="rubroLocal" class="form-select" required>
-                              <?php foreach ($rubros as $rubro) {
-                                if ($rubro != ($local['rubroLocal'])){
-                                  ?> <option value=<?= $rubro ?>><?= $rubro ?></option> <?php
-                                }else{
-                                  ?> <option value=<?= htmlspecialchars($local['rubroLocal']) ?> selected><?= htmlspecialchars($local['rubroLocal']) ?></option> <?php
-                                }
-                              }?>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                      <label class="form-label">Dueño del Local</label>
-                      <select name="codUsuario" class="form-select" required>
-                        <?php
-                        $query = "SELECT codUsuario, nombreUsuario FROM usuarios WHERE tipoUsuario = 'dueño de local'";
-                        $duenios = mysqli_query($conexion, $query);
-                        while ($duenio = mysqli_fetch_assoc($duenios)) {
-                            $selected = ($duenio['codUsuario'] == $local['codUsuario']) ? 'selected' : '';
-                            echo "<option value='{$duenio['codUsuario']}' $selected>{$duenio['nombreUsuario']}</option>";
-                        }
-                        ?>
-                      </select>
-                    </div>
-
-                 </div>
-
-                 <!-- footer -->
-                 <div class="modal-footer">
-                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                   <button type="submit" name="editar_local" class="btn btn-primary">Guardar cambios</button>
-                 </div>
-
-               </form>
-             </div>
-            </div>
-
-          <?php }elseif($_GET['mensaje'] === "Eliminar-local"){ ?>
-
-            <button class="btn btn-outline-light btn rounded-pill" data-bs-toggle="modal" data-bs-target="#modalEliminarLocal<?= $local['codLocal'] ?>">Eliminar local</button>
-
-            <!-- Modal de confirmación para eliminar -->
-            <div class="modal fade" id="modalEliminarLocal<?= $local['codLocal'] ?>" tabindex="-1" aria-labelledby="labelEliminar<?= $local['codLocal'] ?>" aria-hidden="true">
-              <div class="modal-dialog">
-                <form action="admin_locales.php" method="POST" class="modal-content bg-white text-dark">
-
-                  <!-- header -->
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="labelEliminar<?= $local['codLocal'] ?>">Eliminar Local</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                  </div>
-
-                  <!-- body -->
-                  <div class="modal-body">
-                    <input type="hidden" name="codLocalEliminar" value="<?= $local['codLocal'] ?>">
-                    <p>¿Estás seguro que querés eliminar el local <strong><?= htmlspecialchars($local['nombreLocal']) ?></strong>?</p>
-                  </div>
-
-                  <!-- footer -->
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" name="eliminar_local" class="btn btn-danger">Eliminar</button>
-                  </div>
-
-                </form>
-              </div>
-            </div>
-
-            <?php }} ?>
+        <div class="alert alert-info text-center" role="alert">
+          No existen solicitudes cargadas actualmente.
         </div>
+      <?php } else { ?>
+
+        <?php foreach ($solicitudes as $solicitud) { ?>
+          <div class="d-flex align-items-center justify-content-between rounded mb-3 px-3 py-2 fondo_Local border">
+            <span class="ms-3 flex-grow-1 fw-bold text-center"><?= $solicitud['codUsuario']; ?></span>
+            <span class="ms-3 flex-grow-1 fw-bold text-center"><?= $solicitud['nombreDescuento']; ?></span>
+            <span class="ms-3 flex-grow-1 fw-bold text-center"><?= $solicitud['codLocal']; ?></span>
+
+            <?php if (isset($_GET['mensaje'])) { ?>
+
+              <button class="btn btn-outline-light btn rounded-pill" data-bs-toggle="modal" data-bs-target="#modalSolicitud<?= $solicitud['codSolicitud'] ?>"><?= $decision ?> solicitud</button>
+
+              <!-- Modal Solicitud -->
+              <div class="modal fade" id="modalSolicitud<?= $solicitud['codSolicitud'] ?>" tabindex="-1" aria-labelledby="label<?= $solicitud['codSolicitud'] ?>" aria-hidden="true">
+                <div class="modal-dialog">
+                  <form action="admin_solicitudes.php" method="POST" class="modal-content bg-white text-dark">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="label<?= $solicitud['codSolicitud'] ?>"><?= $decision ?> solicitud</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                      <input type="hidden" name="codSolicitud" value="<?= $solicitud['codSolicitud'] ?>">
+                      <p>¿Estás seguro que querés <?= $decision ?> la solicitud <strong><?= htmlspecialchars($solicitud['nombreDescuento']) ?></strong>?</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                      <button type="submit" name="solicitud" class="btn btn-success"><?= $decision ?></button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+            <?php }  ?>
+          </div>
+        <?php } ?>
 
       <?php } ?>
     </div>
 
     <!-- Botones de acciones -->
     <div class="d-flex flex-column col-2 ms-4 gap-3 flex-column justify-content-center">
-        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#">Aprobar solicitud</button>
-        <a href="#" class="btn btn-secondary">Rechazar solicitud</a>
+      <a href="admin_solicitudes.php?mensaje=Aprobar" class="btn btn-secondary">Aprobar solicitud</a>
+      <a href="admin_solicitudes.php?mensaje=Denegar" class="btn btn-secondary">Denegar solicitud</a>
     </div>
 
-  </div>
-</div>
-
-<!-- Modal para crear local -->
-<div class="modal fade" id="modalNuevoLocal" tabindex="-1" aria-labelledby="miModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <form action="admin_locales.php" method="POST" class="modal-content">
-
-      <!-- header -->
-      <div class="modal-header">
-        <h5 class="modal-title" id="miModalLabel">Crear Local</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-      </div>
-
-      <!-- body -->
-      <div class="modal-body">
-
-        <div class="mb-3">
-          <label for="nombreLocal" class="form-label">Nombre del Local</label>
-          <input type="text" name="nombreLocal" id="nombreLocal" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-          <label for="ubicacionLocal" class="form-label">Ubicación</label>
-          <input type="text" name="ubicacionLocal" id="ubicacionLocal" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-          <label for="rubroLocal" class="form-label">Rubro</label>
-          <select name="rubroLocal" id="rubroLocal" class="form-select" required>
-                    <option value="">Seleccionar...</option>
-                    <option value="Indumentaria">Indumentaria</option>
-                    <option value="Perfumeria">Perfumeria</option>
-                    <option value="Comida">Comida</option>
-                    <option value="Bazar">Bazar</option>
-          </select>
-        </div>
-
-        <div class="mb-3">
-          <label for="codUsuario" class="form-label">Dueño del Local</label>
-          <select name="codUsuario" id="codUsuario" class="form-select" required>
-            <option value="">Seleccionar dueño...</option>
-            <?php
-            global $conexion;
-            $query = "SELECT codUsuario, nombreUsuario FROM usuarios WHERE tipoUsuario = 'dueño de local'";
-            $resultado = mysqli_query($conexion, $query);
-            if (!$resultado || mysqli_num_rows($resultado) < 1) {
-                die("Error en la consulta: " . mysqli_error($conexion));
-            }
-            $duenios = mysqli_fetch_all($resultado, MYSQLI_ASSOC);
-            foreach ($duenios as $duenio) {
-                echo "<option value='{$duenio['codUsuario']}'>{$duenio['nombreUsuario']}</option>";
-            }
-            ?>
-          </select>
-        </div>
-      
-      </div>
-
-      <!-- footer -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="submit" name="crear_local" class="btn btn-primary">Guardar</button>
-      </div>
-
-    </form>
   </div>
 </div>
 
