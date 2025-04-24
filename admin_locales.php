@@ -93,6 +93,14 @@ $locales = mysqli_fetch_all($resultado, MYSQLI_ASSOC);
     <!-- Listado de locales -->
     <div class=" fondo_local rounded p-3 flex-grow-1 text-light ">
 
+      <h3 class="text-center mb-4">Locales</h3>
+
+      <?php if (empty($locales)) { ?>
+          <div class="alert alert-info text-center" role="alert">
+              No existen locales cargados actualmente.
+          </div>
+      <?php } else  ?>
+
       <?php foreach($locales as $local) { ?>
 
         <div class=" d-flex align-items-center justify-content-between rounded mb-3 px-3 py-2 fondo_Local border ">
@@ -219,7 +227,7 @@ $locales = mysqli_fetch_all($resultado, MYSQLI_ASSOC);
     <div class="d-flex flex-column col-2 ms-4 gap-3 flex-column justify-content-center">
         <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalNuevoLocal">Crear Local</button>
         <a href="admin_locales.php?mensaje=Editar-local" class="btn btn-secondary">Editar local</a>
-        <a href="admin_locales.php?mensaje=Eliminar-local" class="btn btn-secondary">Elimar local</a>
+        <a href="admin_locales.php?mensaje=Eliminar-local" class="btn btn-secondary">Eliminar local</a>
     </div>
 
   </div>
