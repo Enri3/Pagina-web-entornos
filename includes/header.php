@@ -16,6 +16,7 @@ function renderHeader($titulo = "Shopping Descuentos") {
                 <link rel="stylesheet" href="includes/style.css">
                 <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+                <link rel="icon" href="imagenes/favicon.ico" type="image/x-icon">
             </head>
             <body>
 
