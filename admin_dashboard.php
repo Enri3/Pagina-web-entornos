@@ -8,7 +8,7 @@ verificarAcceso('administrador'); // Solo usuarios admin pueden pasar
 renderHeader("Panel Administrador - Shopping Descuentos");
 ?>
 
-<h2 class="mb-4">Hola, <?= htmlspecialchars($_SESSION['nombreUsuario']) ?> (Administrador)</h2>
+<h2 class="mb-4">Hola, <?= htmlspecialchars($_SESSION['nombreUsuario']) ?></h2><h2 style="color:rgb(199, 9, 9);"> ADMINISTRADOR</h2>
 <p>Validá cuentas, aprobá promociones, gestioná novedades y visualizá reportes.</p>
 <!-- CONTENIDO -->
 <div class="container py-5">
@@ -61,8 +61,5 @@ renderHeader("Panel Administrador - Shopping Descuentos");
   </div>
 </div>
 
-
-<!-- sacar -->
-<a href="logout.php" class="btn btn-danger mt-3">Cerrar sesión</a>
 
 <?php renderFooter(); ?>

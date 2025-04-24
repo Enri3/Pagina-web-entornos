@@ -40,7 +40,7 @@ function renderHeader($titulo = "Shopping Descuentos") {
         if ($tipoUsuario === 'administrador') {
             $dashboard = "admin_dashboard.php";
         } elseif ($tipoUsuario === 'dueño de local') {
-            $dashboard = "dueño_dashboard.php";
+            $dashboard = "dueno_dashboard.php";
         } elseif ($tipoUsuario === 'cliente') {
             $dashboard = "cliente_dashboard.php";
         }
@@ -48,11 +48,11 @@ function renderHeader($titulo = "Shopping Descuentos") {
         echo <<<HTML
 
             <li class="nav-item">
-                <span class="nav-link text-white">Hola, {$nombre}</span>
+                <span class="text-white">Hola, {$nombre}</span>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-white" href="{$dashboard}">
-                    <button type="button" class="btn btn-outline-light text-light">Panel</button>
+                    <button type="button" class="btn btn-outline-light text-light">Panel del {$tipoUsuario}</button>
                 </a>
             </li>
             <li class="nav-item">

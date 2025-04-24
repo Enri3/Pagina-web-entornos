@@ -3,6 +3,7 @@ include 'includes/header.php';
 include 'includes/footer.php';
 include 'includes/redireccion.php';
 
+session_start(); // Iniciar la sesión
 // Verificar si el usuario ya está logueado
 if (isset($_SESSION['nombreUsuario'])) {
     // Si el usuario ya está logueado, redirigir a la página de inicio o a otra página
