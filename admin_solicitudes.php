@@ -4,48 +4,47 @@ require_once 'includes/footer.php';
 require_once 'includes/auth.php';
 require_once 'includes/conexion.php';
 
-verificarAcceso('administrador'); // Solo usuarios admin pueden pasar
+verificarAcceso('administrador');
 
 renderHeader("Gestión de descuentos");
 
-//Cargar decision de la solicitud
-if (isset($_GET['mensaje']) && ($_GET['mensaje'] === "Denegar" || $_GET['mensaje'] === "Aprobar")) {
-    $decision = $_GET['mensaje'];
-  } else {
-        $decision = 'Denegar';
-        //echo "ALGO ESTA FALLANDO";
-  }
+// Leer acción
+if (isset($_GET['accion']) && ($_GET['accion'] === "Denegar" || $_GET['accion'] === "Aprobar")) {
+    $accion = $_GET['accion'];
+} else {
+    $accion = null;
+}
 
-//Enviar decision de la solicitud
+// Enviar decisión de la solicitud
 if (isset($_POST['solicitud'])) {
     $codSolicitud = $_POST['codSolicitud'];
-    if ($decision === "Aprobar") {
-        $decision = "Confirmada";
+
+    if ($_GET['accion'] === "Aprobar") {
+        $estado = "Confirmada";
     } else {
-        $decision = "Rechazada";
+        $estado = "Rechazada";
     }
-  
-    $query = "UPDATE solicitudes SET estado='$decision' WHERE codSolicitud='$codSolicitud'";
-  
+
+    $query = "UPDATE solicitudes SET estado='$estado' WHERE codSolicitud='$codSolicitud'";
+
     if (mysqli_query($conexion, $query)) {
-        header("Location: admin_solicitudes.php?mensaje=Estado+solicitud+actualizado+correctamente");
+        header("Location: admin_solicitudes.php");
         exit;
     } else {
-        header("Location: admin_solicitudes.php?mensaje=Error+al+actualizar+estado+de+la+solicitud");
+        header("Location: admin_solicitudes.php");
         exit;
     }
 }
 
-//Traer solicitudes de descuentos
-$query = "SELECT * FROM solicitudes";
+// Traer solo solicitudes pendientes
+$query = "SELECT * FROM solicitudes WHERE estado='Pendiente'";
 $resultado = mysqli_query($conexion, $query);
 
 if (!$resultado) {
-  die("Error en la consulta: " . mysqli_error($conexion));
+    die("Error en la consulta: " . mysqli_error($conexion));
 }
 
 $solicitudes = mysqli_fetch_all($resultado, MYSQLI_ASSOC);
-
 ?>
 
 <div class="container my-5">
@@ -63,7 +62,7 @@ $solicitudes = mysqli_fetch_all($resultado, MYSQLI_ASSOC);
 
       <?php if (empty($solicitudes)) { ?>
         <div class="alert alert-info text-center" role="alert">
-          No existen solicitudes cargadas actualmente.
+          No existen solicitudes pendientes actualmente.
         </div>
       <?php } else { ?>
 
@@ -73,41 +72,38 @@ $solicitudes = mysqli_fetch_all($resultado, MYSQLI_ASSOC);
             <span class="ms-3 flex-grow-1 fw-bold text-center"><?= $solicitud['nombreDescuento']; ?></span>
             <span class="ms-3 flex-grow-1 fw-bold text-center"><?= $solicitud['codLocal']; ?></span>
 
-            <?php if (isset($_GET['mensaje'])) { ?>
-
-              <button class="btn btn-outline-light btn rounded-pill" data-bs-toggle="modal" data-bs-target="#modalSolicitud<?= $solicitud['codSolicitud'] ?>"><?= $decision ?> solicitud</button>
+            <?php if ($accion) { ?>
+              <button class="btn btn-outline-light btn rounded-pill" data-bs-toggle="modal" data-bs-target="#modalSolicitud<?= $solicitud['codSolicitud'] ?>"><?= $accion ?> solicitud</button>
 
               <!-- Modal Solicitud -->
               <div class="modal fade" id="modalSolicitud<?= $solicitud['codSolicitud'] ?>" tabindex="-1" aria-labelledby="label<?= $solicitud['codSolicitud'] ?>" aria-hidden="true">
                 <div class="modal-dialog">
-                  <form action="admin_solicitudes.php" method="POST" class="modal-content bg-white text-dark">
+                  <form action="admin_solicitudes.php?accion=<?= $accion ?>" method="POST" class="modal-content bg-white text-dark">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="label<?= $solicitud['codSolicitud'] ?>"><?= $decision ?> solicitud</h5>
+                      <h5 class="modal-title" id="label<?= $solicitud['codSolicitud'] ?>"><?= $accion ?> solicitud</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                     </div>
                     <div class="modal-body">
                       <input type="hidden" name="codSolicitud" value="<?= $solicitud['codSolicitud'] ?>">
-                      <p>¿Estás seguro que querés <?= $decision ?> la solicitud <strong><?= htmlspecialchars($solicitud['nombreDescuento']) ?></strong>?</p>
+                      <p>¿Estás seguro que querés <?= $accion ?> la solicitud <strong><?= htmlspecialchars($solicitud['nombreDescuento']) ?></strong>?</p>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                      <button type="submit" name="solicitud" class="btn btn-success"><?= $decision ?></button>
+                      <button type="submit" name="solicitud" class="btn btn-success"><?= $accion ?></button>
                     </div>
                   </form>
                 </div>
               </div>
-
-            <?php }  ?>
+            <?php } ?>
           </div>
         <?php } ?>
-
       <?php } ?>
     </div>
 
     <!-- Botones de acciones -->
     <div class="d-flex flex-column col-2 ms-4 gap-3 flex-column justify-content-center">
-      <a href="admin_solicitudes.php?mensaje=Aprobar" class="btn btn-secondary">Aprobar solicitud</a>
-      <a href="admin_solicitudes.php?mensaje=Denegar" class="btn btn-secondary">Denegar solicitud</a>
+      <a href="admin_solicitudes.php?accion=Aprobar" class="btn btn-secondary">Aprobar solicitud</a>
+      <a href="admin_solicitudes.php?accion=Denegar" class="btn btn-secondary">Denegar solicitud</a>
     </div>
 
   </div>
