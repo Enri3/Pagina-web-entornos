@@ -30,6 +30,7 @@ $promos = mysqli_fetch_all($resultado, MYSQLI_ASSOC)?>
           echo '<div class="alert alert-info text-center" role="alert">'.'No existen promociones cargadas actualmente.'.'</div>';
         }else{ 
           foreach($promos as $unaPromo){ 
+
             //Para cada promo busco el local
               $queryLocal = "SELECT * FROM Locales WHERE codLocal = ".$unaPromo['codLocal'];
               $resultadoLocal = mysqli_query($conexion, $queryLocal)
@@ -37,6 +38,7 @@ $promos = mysqli_fetch_all($resultado, MYSQLI_ASSOC)?>
               $localPromo = mysqli_fetch_assoc($resultadoLocal); 
                 ?>
             <span class="ms-3 flex-grow-1 fw-bold"><?php echo $localPromo['nombreLocal'];?> </span>
+
             <div class=" d-flex align-items-center justify-content-between rounded mb-3 px-3 py-2 fondo_Local border">
             <span class="ms-3 flex-grow-1 fw-bold">Código: <?php echo $unaPromo['codPromo'];?> </span>
              <span class="ms-3 flex-grow-1 fw-bold"><?php echo $unaPromo['textoPromo'];?> </span>
@@ -57,15 +59,32 @@ $promos = mysqli_fetch_all($resultado, MYSQLI_ASSOC)?>
         if(!isset($_POST['codPromo'])){ 
           echo '<div class="alert alert-info text-center" role="alert">'.'Seleccione una promo para ver los detalles.'.'</div>';
         }else{
-          //rescato la promo
+          //rescato la promo 
           $unaPromo = $promos[$_POST['codPromo']-1];
+          //traigo del local de la promo
+          $queryLocal = "SELECT * FROM Locales WHERE codLocal = ".$unaPromo['codLocal'];
+              $resultadoLocal = mysqli_query($conexion, $queryLocal)
+                or die("Error en la consulta: " . mysqli_error($conexion));
+              $localPromo = mysqli_fetch_assoc($resultadoLocal); 
+
+          //traigo info del dueño del local de la promo
+          $queryDueno = "SELECT * FROM Usuarios WHERE codUsuario = ".$localPromo['codUsuario'];
+              $resultadoDueno = mysqli_query($conexion, $queryDueno)
+                or die("Error en la consulta: " . mysqli_error($conexion));
+              $duenoPromo = mysqli_fetch_assoc($resultadoDueno);
+
           //busco los usos
           $query = "SELECT * FROM uso_promociones WHERE codPromo = ".$unaPromo['codPromo'];
           $resultado = mysqli_query($conexion, $query)
             or die("Error en la consulta: " . mysqli_error($conexion)); 
           $usos = mysqli_fetch_all($resultado, MYSQLI_ASSOC); 
+
           echo '<h3 class="text-center mb-4">'.$unaPromo['textoPromo'].' (código: '.$unaPromo['codPromo'].')</h3>';
-          
+          echo '<span class="text-center ">'.'En local: '.$localPromo['nombreLocal'].'</span>';
+          echo '<br>';
+          echo '<span class="text-center ">'.'Dueño del local: '.$duenoPromo['nombreUsuario'].'</span>';
+          echo '<br>';
+          echo '<br>';
           if(empty($usos)){ 
             echo '<div class="alert alert-info text-center" role="alert">'.'No se utilizó la promoción aún.'.'</div>';
           }else{
