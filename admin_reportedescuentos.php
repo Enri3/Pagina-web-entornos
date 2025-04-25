@@ -18,11 +18,11 @@ $promos = mysqli_fetch_all($resultado, MYSQLI_ASSOC)?>
 </div>
 
 <!-- Listado de Promociones -->
-<div class="container-fluid py-2 min-vh-100 px-0">
+<div class="container-fluid py-2 min-vh-100 px-0 row">
   <div class="d-flex gap-3">
 
     <!-- Listado de Promociones -->
-    <div class="fondo_local rounded p-3 flex-grow-1 text-light">
+    <div class="fondo_local rounded p-3 col-6  text-light">
       <h3 class="text-center mb-4">Promociones</h3>
 
       <?php 
@@ -43,7 +43,7 @@ $promos = mysqli_fetch_all($resultado, MYSQLI_ASSOC)?>
     </div>
 
     <!-- Detalles de la promo -->
-    <div class="fondo_local rounded p-3 flex-grow-1 text-light">
+    <div class="fondo_local rounded p-3 col-6 text-light">
 
       <?php 
         if(!isset($_POST['codPromo'])){ 
@@ -61,16 +61,35 @@ $promos = mysqli_fetch_all($resultado, MYSQLI_ASSOC)?>
           if(empty($usos)){ 
             echo '<div class="alert alert-info text-center" role="alert">'.'No se utilizó la promoción aún.'.'</div>';
           }else{
-            echo '<span class="ms-3 flex-grow-1 fw-bold">'.'Usuario'.'</span>';
-            echo '<span class="ms-3 flex-grow-1 fw-bold">'.'Fecha de uso'.'</span>';
+            ?>
+            <div class="row">
+            <?php
+            echo '<span class="text-center fw-bold col-4">'.'Usuario'.'</span>';
+            echo '<span class="text-center fw-bold col-4">'.'Fecha de uso'.'</span>';
+            echo '<span class="text-center fw-bold col-4">'.'Estado'.'</span>';
+            ?></div>
+            <?php
             foreach($usos as $unUso){ ?>
-              <div class=" d-flex align-items-center justify-content-between rounded mb-3 px-3 py-2 fondo_Local border ">
+              <div class=" d-flex align-items-center justify-content-between rounded mb-3 px-3 py-2 fondo_Local border row">
+                <?php
 
-                <span class="ms-3 flex-grow-1 fw-bold"><?php echo $unUso['codCliente'];?> </span>
-                <span class="ms-3 flex-grow-1 fw-bold"><?php echo $unUso['fechaUsoPromo'];?> </span>
+                //Para cada uso busco quien fue el cliente
+                $query2 = "SELECT * FROM Usuarios WHERE codUsuario = ".$unUso['codCliente'];
+                $resultado2 = mysqli_query($conexion, $query2)
+                  or die("Error en la consulta: " . mysqli_error($conexion));
+                $usuario_promo = mysqli_fetch_assoc($resultado2); 
+                ?>
+
+                <span class="col-4 text-center fw-bold"><?php echo $usuario_promo['nombreUsuario'];?> </span>
+                <span class="col-4 text-center fw-bold"><?php echo $unUso['fechaUsoPromo'];?> </span>
+                <span class="col-4 text-center fw-bold"><?php echo $unUso['estado'];?> </span>
 
               </div>
-          <?php }}
+              
+          <?php }
+          //cuento y muestro los usos
+          $cantidadUsos = mysqli_num_rows($resultado);
+          echo '<div class="text-center fw-bold" >'.'Cantidad de usos: ' . $cantidadUsos . '</div>';}
         }?>
 
     </div>
