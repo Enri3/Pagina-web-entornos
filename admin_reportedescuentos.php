@@ -18,23 +18,31 @@ $promos = mysqli_fetch_all($resultado, MYSQLI_ASSOC)?>
 </div>
 
 <!-- Listado de Promociones -->
-<div class="container-fluid py-2 min-vh-100 px-0 row">
-  <div class="d-flex gap-3">
+<div class="container py-2 min-vh-100 px-0 ">
+  <div class="  d-flex gap-3 flex-row">
 
     <!-- Listado de Promociones -->
-    <div class="fondo_local rounded p-3 col-6  text-light">
+    <div class="fondo_local rounded p-3 col-12 col-md-8 flex-fill text-light">
       <h3 class="text-center mb-4">Promociones</h3>
 
       <?php 
         if(empty($promos)){ 
           echo '<div class="alert alert-info text-center" role="alert">'.'No existen promociones cargadas actualmente.'.'</div>';
         }else{ 
-          foreach($promos as $unaPromo){ ?>
-            <div class=" d-flex align-items-center justify-content-between rounded mb-3 px-3 py-2 fondo_Local border ">
+          foreach($promos as $unaPromo){ 
+            //Para cada promo busco el local
+              $queryLocal = "SELECT * FROM Locales WHERE codLocal = ".$unaPromo['codLocal'];
+              $resultadoLocal = mysqli_query($conexion, $queryLocal)
+                or die("Error en la consulta: " . mysqli_error($conexion));
+              $localPromo = mysqli_fetch_assoc($resultadoLocal); 
+                ?>
+            <span class="ms-3 flex-grow-1 fw-bold"><?php echo $localPromo['nombreLocal'];?> </span>
+            <div class=" d-flex align-items-center justify-content-between rounded mb-3 px-3 py-2 fondo_Local border">
+            <span class="ms-3 flex-grow-1 fw-bold">Código: <?php echo $unaPromo['codPromo'];?> </span>
              <span class="ms-3 flex-grow-1 fw-bold"><?php echo $unaPromo['textoPromo'];?> </span>
              <form method="POST" action="">
                <input type="hidden" name="codPromo" value="<?= $unaPromo['codPromo'] ?>">
-               <button type="submit" class="btn btn-outline-light btn rounded-pill">Ver detalles</button>
+               <button type="submit" class="btn btn-outline-light btn rounded-pill">Ver usos</button>
              </form>
             </div>
         
@@ -43,7 +51,7 @@ $promos = mysqli_fetch_all($resultado, MYSQLI_ASSOC)?>
     </div>
 
     <!-- Detalles de la promo -->
-    <div class="fondo_local rounded p-3 col-6 text-light">
+    <div class="fondo_local rounded p-3 col-12 col-md-4 flex-fill text-light">
 
       <?php 
         if(!isset($_POST['codPromo'])){ 
@@ -74,10 +82,10 @@ $promos = mysqli_fetch_all($resultado, MYSQLI_ASSOC)?>
                 <?php
 
                 //Para cada uso busco quien fue el cliente
-                $query2 = "SELECT * FROM Usuarios WHERE codUsuario = ".$unUso['codCliente'];
-                $resultado2 = mysqli_query($conexion, $query2)
+                $queryUsuario = "SELECT * FROM Usuarios WHERE codUsuario = ".$unUso['codCliente'];
+                $resultadoUsuario = mysqli_query($conexion, $queryUsuario)
                   or die("Error en la consulta: " . mysqli_error($conexion));
-                $usuario_promo = mysqli_fetch_assoc($resultado2); 
+                $usuario_promo = mysqli_fetch_assoc($resultadoUsuario); 
                 ?>
 
                 <span class="col-4 text-center fw-bold"><?php echo $usuario_promo['nombreUsuario'];?> </span>
