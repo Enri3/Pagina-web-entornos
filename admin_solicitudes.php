@@ -46,9 +46,9 @@ $query = "SELECT
             solicitudes.nombreDescuento
         FROM 
             solicitudes
-        INNER JOIN 
+        JOIN 
             usuarios ON solicitudes.codUsuario = usuarios.codUsuario
-        INNER JOIN 
+        JOIN 
             locales ON solicitudes.codLocal = locales.codLocal
         WHERE estado = 'Pendiente'
   ";
@@ -83,9 +83,7 @@ $solicitudes = mysqli_fetch_all($resultado, MYSQLI_ASSOC);
 
         <?php foreach ($solicitudes as $solicitud) { ?>
           <div class="d-flex align-items-center justify-content-between rounded mb-3 px-3 py-2 fondo_Local border">
-            <span class="ms-3 flex-grow-1 fw-bold text-center"><?= $solicitud['nombreUsuario']; ?></span>
-            <span class="ms-3 flex-grow-1 fw-bold text-center"><?= $solicitud['nombreDescuento']; ?></span>
-            <span class="ms-3 flex-grow-1 fw-bold text-center"><?= $solicitud['nombreLocal']; ?></span>
+            <span class="ms-3 flex-grow-1 fw-bold"><?= $solicitud['nombreDescuento']; ?></span>
 
             <?php if ($accion) { ?>
               <button class="btn btn-outline-light btn rounded-pill" data-bs-toggle="modal" data-bs-target="#modalSolicitud<?= $solicitud['codSolicitud'] ?>"><?= $accion ?> solicitud</button>
@@ -116,9 +114,20 @@ $solicitudes = mysqli_fetch_all($resultado, MYSQLI_ASSOC);
                 </div>
               </div>
             <?php } ?>
+
+            <?php
+            if(!isset($_GET['accion'])){ ?>
+
+            <!-- Función Ver local (WIP)-->
+            <button class="btn btn-outline-light btn rounded-pill">Ver más</button>
+
+            <?php } ?>
+
           </div>
-        <?php } ?>
-      <?php } ?>
+        <?php 
+      } ?>
+      <?php 
+    } ?>
     </div>
 
     <!-- Botones de acciones -->
