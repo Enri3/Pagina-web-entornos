@@ -58,7 +58,7 @@ CREATE TABLE `novedades` (
   `textoNovedad` varchar(100) NOT NULL,
   `fechaDesdeNovedad` date NOT NULL,
   `fechaHastaNovedad` date NOT NULL,
-  `tipoUsuario` enum('cliente','dueño de local','administrador') NOT NULL
+  `tipoUsuario` enum('Inicial','Medium','Premium') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -74,9 +74,30 @@ CREATE TABLE `promociones` (
   `fechaHastaPromo` date NOT NULL,
   `categoriaCliente` enum('Inicial','Medium','Premium') NOT NULL,
   `diasSemana` set('1','2','3','4','5','6','7') NOT NULL,
-  `estadoPromo` enum('cliente','dueño de local','administrador') NOT NULL,
+  `estadoPromo` enum('Pendiente','Aprobada','Denegada') NOT NULL,
   `codLocal` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `solicitudes`
+--
+
+CREATE TABLE `solicitudes` (
+  `codSolicitud` int(11) NOT NULL,
+  `codUsuario` int(100) NOT NULL,
+  `nombreDescuento` varchar(100) NOT NULL,
+  `codLocal` int(11) NOT NULL,
+  `estado` enum('Confirmada','Pendiente','Rechazada') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `solicitudes`
+--
+
+INSERT INTO `solicitudes` (`codSolicitud`, `codUsuario`, `nombreDescuento`, `codLocal`, `estado`) VALUES
+(1, 1, 'Descuento 1', 2, 'Pendiente');
 
 -- --------------------------------------------------------
 
