@@ -37,7 +37,22 @@ if (isset($_POST['solicitud'])) {
 }
 
 // Traer solo solicitudes pendientes
-$query = "SELECT * FROM solicitudes WHERE estado='Pendiente'";
+$query = "SELECT 
+            solicitudes.codSolicitud,
+            solicitudes.codUsuario,
+            solicitudes.codLocal,
+            usuarios.nombreUsuario AS nombreUsuario,
+            locales.nombreLocal AS nombreLocal,
+            solicitudes.nombreDescuento
+        FROM 
+            solicitudes
+        INNER JOIN 
+            usuarios ON solicitudes.codUsuario = usuarios.codUsuario
+        INNER JOIN 
+            locales ON solicitudes.codLocal = locales.codLocal
+        WHERE estado = 'Pendiente'
+  ";
+
 $resultado = mysqli_query($conexion, $query);
 
 if (!$resultado) {
@@ -68,9 +83,9 @@ $solicitudes = mysqli_fetch_all($resultado, MYSQLI_ASSOC);
 
         <?php foreach ($solicitudes as $solicitud) { ?>
           <div class="d-flex align-items-center justify-content-between rounded mb-3 px-3 py-2 fondo_Local border">
-            <span class="ms-3 flex-grow-1 fw-bold text-center"><?= $solicitud['codUsuario']; ?></span>
+            <span class="ms-3 flex-grow-1 fw-bold text-center"><?= $solicitud['nombreUsuario']; ?></span>
             <span class="ms-3 flex-grow-1 fw-bold text-center"><?= $solicitud['nombreDescuento']; ?></span>
-            <span class="ms-3 flex-grow-1 fw-bold text-center"><?= $solicitud['codLocal']; ?></span>
+            <span class="ms-3 flex-grow-1 fw-bold text-center"><?= $solicitud['nombreLocal']; ?></span>
 
             <?php if ($accion) { ?>
               <button class="btn btn-outline-light btn rounded-pill" data-bs-toggle="modal" data-bs-target="#modalSolicitud<?= $solicitud['codSolicitud'] ?>"><?= $accion ?> solicitud</button>
@@ -89,7 +104,13 @@ $solicitudes = mysqli_fetch_all($resultado, MYSQLI_ASSOC);
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                      <button type="submit" name="solicitud" class="btn btn-success"><?= $accion ?></button>
+
+                    <?php if ($accion==="Aprobar") {  ?>
+                        <button type="submit" name="solicitud" class="btn btn-success"><?= $accion ?></button>
+                    <?php } else { ?>
+                        <button type="submit" class="btn btn-danger" name="solicitud" class="btn btn-success"><?= $accion ?></button>
+                    <?php } ?>
+
                     </div>
                   </form>
                 </div>
