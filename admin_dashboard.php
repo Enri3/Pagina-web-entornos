@@ -15,7 +15,7 @@ renderHeader("Panel Administrador - Shopping Descuentos");
   <div class="row g-4">
 
     <!-- Card 1 -->
-    <div class="col-md-6">
+    <div class="col-md-3">
       <div class="card p-3">
         <img src="imagenes/mall1.jpg" class="card-img-top rounded" alt="Locales">
         <div class="card-body text-center">
@@ -26,7 +26,7 @@ renderHeader("Panel Administrador - Shopping Descuentos");
     </div>
 
     <!-- Card 2 -->
-    <div class="col-md-6">
+    <div class="col-md-3">
       <div class="card p-3">
         <img src="imagenes/mall1.jpg" class="card-img-top rounded" alt="Solicitudes">
         <div class="card-body text-center">
@@ -37,7 +37,7 @@ renderHeader("Panel Administrador - Shopping Descuentos");
     </div>
 
     <!-- Card 3 -->
-    <div class="col-md-6">
+    <div class="col-md-3">
       <div class="card p-3">
         <img src="imagenes/mall1.jpg" class="card-img-top rounded" alt="Novedades">
         <div class="card-body text-center">
@@ -48,7 +48,7 @@ renderHeader("Panel Administrador - Shopping Descuentos");
     </div>
 
     <!-- Card 4 -->
-    <div class="col-md-6">
+    <div class="col-md-3">
       <div class="card p-3">
         <img src="imagenes/mall1.jpg" class="card-img-top rounded" alt="Descuentos">
         <div class="card-body text-center">
