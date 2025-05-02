@@ -13,15 +13,15 @@ function renderHeader($titulo = "Shopping Descuentos") {
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>{$titulo}</title>
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-                <link rel="stylesheet" href="includes/style.css">
                 <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+                <link rel="stylesheet" href="includes/style.css">
                 <link rel="icon" href="imagenes/favicon.ico" type="image/x-icon">
             </head>
             <body>
 
-                <nav class="navbar navbar-expand-sm  fondo_Barras shadow-sm py-4">
-                <div class="container-fluid">
+                <nav class="navbar navbar-expand-sm shadow-sm fondo_Barras py-4 " style='position:sticky;top:0;width: 100%;z-index: 1000000;'>
+                <div class="container-fluid" >
                     <a href="index.php">
                         <img src="imagenes/logo.png" class="img-fluid img_logo" alt="logo">
                     </a>
