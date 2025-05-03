@@ -7,7 +7,7 @@ function renderFooter() {
     echo <<<HTML
         </main>
 
-        <footer class="text-white pt-4 pb-2 mt-5 letra fondo_Barras py-4" style='position:fixed;bottom:0;width:100%;'>
+        <footer class="text-white pt-4 pb-2 mt-5 letra fondo_Barras py-4">
             <div class="container">
                 <div class="justify-content-center d-flex gap-3">
                     <h5><a href="info_contacto.php" class="text-white hover-subrayado">Sobre Nosotros</a></h5>

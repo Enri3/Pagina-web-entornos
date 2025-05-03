@@ -19,8 +19,21 @@ function renderHeader($titulo = "Shopping Descuentos") {
                 <link rel="icon" href="imagenes/favicon.ico" type="image/x-icon">
             </head>
             <body>
-
-                <nav class="navbar navbar-expand-sm shadow-sm fondo_Barras py-4 " style='position:sticky;top:0;width: 100%;z-index: 1000000;'>
+                <!-- ARREGLAR Agrego style aca pq por alguna razon no me lee el css -->
+                <style>
+                    nav.navbar {
+                        position:sticky;
+                        top:0;
+                        width: 100%;
+                        z-index: 1000;
+                    }
+                    footer {
+                        position:fixed;
+                        bottom:0;
+                        width:100%;
+                    }
+                </style>
+                <nav class="navbar navbar-expand-sm shadow-sm fondo_Barras py-4 " >
                 <div class="container-fluid" >
                     <a href="index.php">
                         <img src="imagenes/logo.png" class="img-fluid img_logo" alt="logo">
